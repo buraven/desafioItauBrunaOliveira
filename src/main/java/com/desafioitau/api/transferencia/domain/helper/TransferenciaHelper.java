@@ -43,27 +43,6 @@ public class TransferenciaHelper {
     private boolean contaValidaParaTranferencia(String id, double valor) {
         ContaResponseDTO contaResponseDTO = contaService.buscarContaPorId(id);
 
-        contaException(contaResponseDTO, valor);
-
-        return contaResponseDTO != null
-                && contaResponseDTO.isAtivo()
-                && contaResponseDTO.getSaldo() > 0
-                && contaResponseDTO.getSaldo() >= valor
-                && contaResponseDTO.getLimiteDiario() > 0
-                && contaResponseDTO.getLimiteDiario() >= valor;
-    }
-
-    private void notificarBACEN(TransferenciaRequestDTO transferenciaRequestDTO) {
-        NotificacaoRequestDTO notificacaoRequestDTO = new NotificacaoRequestDTO();
-        notificacaoRequestDTO.setValor(transferenciaRequestDTO.getValor());
-        notificacaoRequestDTO.setConta(new NotificacaoRequestDTO.Conta());
-        notificacaoRequestDTO.getConta().setIdOrigem(transferenciaRequestDTO.getConta().getIdOrigem());
-        notificacaoRequestDTO.getConta().setIdDestino(transferenciaRequestDTO.getConta().getIdDestino());
-
-        notificacaoService.notificarBACEN(notificacaoRequestDTO);
-    }
-
-    private void contaException(ContaResponseDTO contaResponseDTO, double valor) {
         if (contaResponseDTO == null) {
             exception("Conta não cadastrata");
         } else if (!contaResponseDTO.isAtivo()) {
@@ -77,8 +56,20 @@ public class TransferenciaHelper {
         } else if (contaResponseDTO.getLimiteDiario() < valor) {
             exception("Limite insuficiente");
         } else {
-            exception("Conta não respeita os padrões de aceite para concluir a transferência");
+            return true;
         }
+
+        return false;
+    }
+
+    private void notificarBACEN(TransferenciaRequestDTO transferenciaRequestDTO) {
+        NotificacaoRequestDTO notificacaoRequestDTO = new NotificacaoRequestDTO();
+        notificacaoRequestDTO.setValor(transferenciaRequestDTO.getValor());
+        notificacaoRequestDTO.setConta(new NotificacaoRequestDTO.Conta());
+        notificacaoRequestDTO.getConta().setIdOrigem(transferenciaRequestDTO.getConta().getIdOrigem());
+        notificacaoRequestDTO.getConta().setIdDestino(transferenciaRequestDTO.getConta().getIdDestino());
+
+        notificacaoService.notificarBACEN(notificacaoRequestDTO);
     }
 
     private void exception(String mensagem) {
