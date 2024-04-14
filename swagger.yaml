@@ -1,0 +1,83 @@
+openapi: 3.0.1
+info:
+  title: API do Desafio Itaú
+  version: v1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+paths:
+  /transferencia:
+    post:
+      tags:
+        - transferencia-controller
+      operationId: efetuarTransferencia
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferenciaRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferenciaResponseDTO'
+        '404':
+          description: Erro nas apis utilizadas para validação
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '422':
+          description: Erro na regra de negócio
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '500':
+          description: Erro de execução
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+components:
+  schemas:
+    Conta:
+      required:
+        - idDestino
+        - idOrigem
+      type: object
+      properties:
+        idOrigem:
+          type: string
+        idDestino:
+          type: string
+    TransferenciaRequestDTO:
+      required:
+        - conta
+        - idCliente
+        - valor
+      type: object
+      properties:
+        idCliente:
+          type: string
+        valor:
+          type: number
+          format: double
+        conta:
+          $ref: '#/components/schemas/Conta'
+    TransferenciaResponseDTO:
+      type: object
+      properties:
+        idTransferencia:
+          type: string
+          format: uuid
+    RestError:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
