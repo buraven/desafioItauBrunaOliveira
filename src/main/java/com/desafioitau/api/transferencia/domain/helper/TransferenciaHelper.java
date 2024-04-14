@@ -1,10 +1,7 @@
 package com.desafioitau.api.transferencia.domain.helper;
 
 import com.desafioitau.api.transferencia.domain.exception.TransferenciaException;
-import com.desafioitau.api.transferencia.dto.ContaResponseDTO;
-import com.desafioitau.api.transferencia.dto.NotificacaoRequestDTO;
-import com.desafioitau.api.transferencia.dto.TransferenciaRequestDTO;
-import com.desafioitau.api.transferencia.dto.TransferenciaResponseDTO;
+import com.desafioitau.api.transferencia.dto.*;
 import com.desafioitau.api.transferencia.domain.service.CadastroService;
 import com.desafioitau.api.transferencia.domain.service.ContaService;
 import com.desafioitau.api.transferencia.domain.service.NotificacaoService;
@@ -29,6 +26,7 @@ public class TransferenciaHelper {
 
         if(clienteCadastrado(idDestino)
             && contaValidaParaTranferencia(idOrigem, transferenciaRequestDTO.getValor())) {
+            atualizarSaldo(transferenciaRequestDTO);
             notificarBACEN(transferenciaRequestDTO);
             transferenciaResponseDTO.setIdTransferencia(UUID.randomUUID());
         }
@@ -60,6 +58,16 @@ public class TransferenciaHelper {
         }
 
         return false;
+    }
+
+    private void atualizarSaldo(TransferenciaRequestDTO transferenciaRequestDTO) {
+        SaldoRequestDTO saldoRequestDTO = new SaldoRequestDTO();
+        saldoRequestDTO.setValor(transferenciaRequestDTO.getValor());
+        saldoRequestDTO.setConta(new SaldoRequestDTO.Conta());
+        saldoRequestDTO.getConta().setIdOrigem(transferenciaRequestDTO.getConta().getIdOrigem());
+        saldoRequestDTO.getConta().setIdDestino(transferenciaRequestDTO.getConta().getIdDestino());
+
+        contaService.atualizarSaldo(saldoRequestDTO);
     }
 
     private void notificarBACEN(TransferenciaRequestDTO transferenciaRequestDTO) {

@@ -12,7 +12,7 @@ public class NotificacaoServiceImpl implements NotificacaoService {
     public void notificarBACEN(NotificacaoRequestDTO notificacaoRequestDTO) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate
-                .put("http://localhost:9090/contas/saldos", notificacaoRequestDTO);
+                .postForObject("http://localhost:9090/notificacoes", notificacaoRequestDTO, String.class);
     }
 
 }

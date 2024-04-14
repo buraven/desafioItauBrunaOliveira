@@ -8,8 +8,9 @@ import lombok.Setter;
 public class SaldoRequestDTO {
 
     private double valor;
-    private String nomeDestino;
+    private Conta conta;
 
+    @Getter @Setter
     public static class Conta {
         private String idOrigem;
         private String idDestino;
