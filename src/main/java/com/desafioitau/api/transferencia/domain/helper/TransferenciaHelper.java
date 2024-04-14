@@ -48,11 +48,11 @@ public class TransferenciaHelper {
         } else if (!contaResponseDTO.isAtivo()) {
             exception("Conta não está ativa");
         } else if (contaResponseDTO.getSaldo() <= 0) {
-            exception("Saldo não pode ser menor que zero");
+            exception("Saldo não pode ser menor ou igual a zero");
         } else if (contaResponseDTO.getSaldo() < valor) {
             exception("Saldo insuficiente");
         } else if (contaResponseDTO.getLimiteDiario() <= 0) {
-            exception("Limite diário não pode ser menor que zero");
+            exception("Limite diário não pode ser menor ou igual a zero");
         } else if (contaResponseDTO.getLimiteDiario() < valor) {
             exception("Limite insuficiente");
         } else {
