@@ -1,4 +1,4 @@
-package com.desafioitau.api.transferencia.domain.exception;
+package com.desafioitau.api.transferencia.infra.handler;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

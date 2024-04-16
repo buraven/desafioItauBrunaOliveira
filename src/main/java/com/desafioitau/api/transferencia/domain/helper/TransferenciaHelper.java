@@ -1,10 +1,13 @@
 package com.desafioitau.api.transferencia.domain.helper;
 
-import com.desafioitau.api.transferencia.domain.exception.TransferenciaException;
+import com.desafioitau.api.transferencia.domain.mapper.NotificacaoRequestMapper;
+import com.desafioitau.api.transferencia.domain.mapper.SaldoRequestMapper;
 import com.desafioitau.api.transferencia.dto.*;
 import com.desafioitau.api.transferencia.domain.service.CadastroService;
 import com.desafioitau.api.transferencia.domain.service.ContaService;
 import com.desafioitau.api.transferencia.domain.service.NotificacaoService;
+import com.desafioitau.api.transferencia.infra.utils.TransferenciaExceptionUtils;
+import com.desafioitau.api.transferencia.infra.utils.constants.ErrorMessageConstants;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -24,10 +27,10 @@ public class TransferenciaHelper {
         String idOrigem = transferenciaRequestDTO.getConta().getIdOrigem();
         String idDestino = transferenciaRequestDTO.getConta().getIdDestino();
 
-        if(clienteCadastrado(idDestino)
-            && contaValidaParaTranferencia(idOrigem, transferenciaRequestDTO.getValor())) {
-            atualizarSaldo(transferenciaRequestDTO);
-            notificarBACEN(transferenciaRequestDTO);
+        if(clienteCadastrado(idDestino) && contaValidaParaTranferencia(idOrigem,
+                                                transferenciaRequestDTO.getValor())) {
+            contaService.atualizarSaldo(SaldoRequestMapper.dataMapper(transferenciaRequestDTO));
+            notificacaoService.notificarBACEN(NotificacaoRequestMapper.dataMapper(transferenciaRequestDTO));
             transferenciaResponseDTO.setIdTransferencia(UUID.randomUUID());
         }
 
@@ -42,47 +45,22 @@ public class TransferenciaHelper {
         ContaResponseDTO contaResponseDTO = contaService.buscarContaPorId(id);
 
         if (contaResponseDTO == null) {
-            exception("Conta não cadastrata");
+            TransferenciaExceptionUtils.exception(ErrorMessageConstants.ERRO_CONTA_NAO_CADASTRADA);
         } else if (!contaResponseDTO.isAtivo()) {
-            exception("Conta não está ativa");
+            TransferenciaExceptionUtils.exception(ErrorMessageConstants.ERRO_CONTA_NAO_ATIVA);
         } else if (contaResponseDTO.getSaldo() <= 0) {
-            exception("Saldo não pode ser menor ou igual a zero");
+            TransferenciaExceptionUtils.exception(ErrorMessageConstants.ERRO_SALDO_MENOR_QUE_ZERO);
         } else if (contaResponseDTO.getSaldo() < valor) {
-            exception("Saldo insuficiente");
+            TransferenciaExceptionUtils.exception(ErrorMessageConstants.ERRO_SALDO_INSUFICIENTE);
         } else if (contaResponseDTO.getLimiteDiario() <= 0) {
-            exception("Limite diário não pode ser menor ou igual a zero");
+            TransferenciaExceptionUtils.exception(ErrorMessageConstants.ERRO_LIMITE_MENOR_QUE_ZERO);
         } else if (contaResponseDTO.getLimiteDiario() < valor) {
-            exception("Limite insuficiente");
+            TransferenciaExceptionUtils.exception(ErrorMessageConstants.ERRO_LIMITE_INSUFICIENTE);
         } else {
             return true;
         }
 
         return false;
-    }
-
-    //COLOCAR MAPPER
-    private void atualizarSaldo(TransferenciaRequestDTO transferenciaRequestDTO) {
-        SaldoRequestDTO saldoRequestDTO = new SaldoRequestDTO();
-        saldoRequestDTO.setValor(transferenciaRequestDTO.getValor());
-        saldoRequestDTO.setConta(new SaldoRequestDTO.Conta());
-        saldoRequestDTO.getConta().setIdOrigem(transferenciaRequestDTO.getConta().getIdOrigem());
-        saldoRequestDTO.getConta().setIdDestino(transferenciaRequestDTO.getConta().getIdDestino());
-
-        contaService.atualizarSaldo(saldoRequestDTO);
-    }
-
-    private void notificarBACEN(TransferenciaRequestDTO transferenciaRequestDTO) {
-        NotificacaoRequestDTO notificacaoRequestDTO = new NotificacaoRequestDTO();
-        notificacaoRequestDTO.setValor(transferenciaRequestDTO.getValor());
-        notificacaoRequestDTO.setConta(new NotificacaoRequestDTO.Conta());
-        notificacaoRequestDTO.getConta().setIdOrigem(transferenciaRequestDTO.getConta().getIdOrigem());
-        notificacaoRequestDTO.getConta().setIdDestino(transferenciaRequestDTO.getConta().getIdDestino());
-
-        notificacaoService.notificarBACEN(notificacaoRequestDTO);
-    }
-
-    private void exception(String mensagem) {
-        throw new TransferenciaException(mensagem);
     }
 
 }

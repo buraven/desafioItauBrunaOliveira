@@ -1,4 +1,4 @@
-package com.desafioitau.api.transferencia.domain.exception;
+package com.desafioitau.api.transferencia.infra.exception;
 
 public class TransferenciaException extends RuntimeException {
 

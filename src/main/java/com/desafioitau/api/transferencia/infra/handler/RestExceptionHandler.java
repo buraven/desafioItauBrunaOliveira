@@ -1,5 +1,6 @@
-package com.desafioitau.api.transferencia.domain.exception;
+package com.desafioitau.api.transferencia.infra.handler;
 
+import com.desafioitau.api.transferencia.infra.exception.TransferenciaException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
