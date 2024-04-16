@@ -23,7 +23,7 @@ class CadastroServiceImplTest {
     }
 
     @Test
-    void buscarClientePorId() {
+    void deveBuscarClientePorId() {
         ClienteResponseDTO response = service.buscarClientePorId("2ceb26e9-7b5c-417e-bf75-ffaa66e3a76f");
 
         assertNotNull(response);

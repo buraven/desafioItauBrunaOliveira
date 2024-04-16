@@ -1,5 +1,8 @@
 package com.desafioitau.api.transferencia.domain.service.impl;
 
+import com.desafioitau.api.transferencia.dto.NotificacaoRequestDTO;
+import com.desafioitau.api.transferencia.dto.SaldoRequestDTO;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,9 +15,26 @@ class NotificacaoServiceImplTest {
     @InjectMocks
     private NotificacaoServiceImpl notificacaoServiceImpl;
 
+    private NotificacaoRequestDTO notificacaoRequest;
+
+    @BeforeEach
+    void setUp() {
+        startNotificacaoRequest();
+    }
+
     @Test
-    void notificarBACEN() {
-        //notificacaoServiceImpl.notificarBACEN();
+    void deveNotificarBACEN() {
+        notificacaoServiceImpl.notificarBACEN(notificacaoRequest);
+    }
+
+    private void startNotificacaoRequest() {
+        NotificacaoRequestDTO notificacaoRequestDTO = new NotificacaoRequestDTO();
+        notificacaoRequestDTO.setValor(1000.00);
+        notificacaoRequestDTO.setConta(new NotificacaoRequestDTO.Conta());
+        notificacaoRequestDTO.getConta().setIdOrigem("d0d32142-74b7-4aca-9c68-838aeacef96b");
+        notificacaoRequestDTO.getConta().setIdDestino("2ceb26e9-7b5c-417e-bf75-ffaa66e3a76f");
+
+        notificacaoRequest = notificacaoRequestDTO;
     }
 
 }
