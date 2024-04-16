@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ApiTransferenciaApplicationTests {
+public class ApiTransferenciaApplicationTests {
 
 	@Test
-	void main() {
+	public void main() {
 		ApiTransferenciaApplication.main(new String[] {});
 	}
 

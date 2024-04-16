@@ -1,17 +1,16 @@
-package com.desafioitau.api.transferencia.domain.service.impl;
+package com.desafioitau.api.transferencia.domain.service;
 
 import com.desafioitau.api.transferencia.dto.ContaResponseDTO;
 import com.desafioitau.api.transferencia.dto.SaldoRequestDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class ContaServiceImplTest {
+public class ContaServiceImplTest {
 
     @InjectMocks
     private ContaServiceImpl service;
@@ -20,13 +19,13 @@ class ContaServiceImplTest {
     private SaldoRequestDTO saldoRequest;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         startConta();
         startSaldoRequest();
     }
 
     @Test
-    void deveBuscarContaPorId() {
+    public void deveBuscarContaPorId() {
         ContaResponseDTO response = service.buscarContaPorId("d0d32142-74b7-4aca-9c68-838aeacef96b");
 
         assertNotNull(response);
@@ -38,7 +37,7 @@ class ContaServiceImplTest {
     }
 
     @Test
-    void deveAtualizarSaldo() {
+    public void deveAtualizarSaldo() {
         service.atualizarSaldo(saldoRequest);
     }
 

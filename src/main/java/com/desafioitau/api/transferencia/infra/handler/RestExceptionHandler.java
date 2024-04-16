@@ -30,5 +30,3 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
 }
-
-//blackbox
