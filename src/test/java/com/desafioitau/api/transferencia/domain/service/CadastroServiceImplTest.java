@@ -1,5 +1,6 @@
 package com.desafioitau.api.transferencia.domain.service;
 
+import com.desafioitau.api.transferencia.domain.mock.ClienteResponseDTOMock;
 import com.desafioitau.api.transferencia.dto.ClienteResponseDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,7 @@ public class CadastroServiceImplTest {
 
     @BeforeEach
     public void setUp() {
-        startCliente();
+        cliente = ClienteResponseDTOMock.getClienteResponseDTO_Ok();
     }
 
     @Test
@@ -31,11 +32,6 @@ public class CadastroServiceImplTest {
         assertEquals(cliente.getNome(), response.getNome());
         assertEquals(cliente.getTelefone(), response.getTelefone());
         assertEquals(cliente.getTipoPessoa(), response.getTipoPessoa());
-    }
-
-    private void startCliente() {
-        cliente = new ClienteResponseDTO("2ceb26e9-7b5c-417e-bf75-ffaa66e3a76f", "Artur Carneiro",
-                "987651234", "Fisica");
     }
 
 }
