@@ -56,11 +56,9 @@ public class TransferenciaHelper {
             TransferenciaExceptionUtils.exception(ErrorMessageConstants.ERRO_LIMITE_MENOR_QUE_ZERO);
         } else if (contaResponseDTO.getLimiteDiario() < valor) {
             TransferenciaExceptionUtils.exception(ErrorMessageConstants.ERRO_LIMITE_INSUFICIENTE);
-        } else {
-            return true;
         }
 
-        return false;
+        return true;
     }
 
 }
