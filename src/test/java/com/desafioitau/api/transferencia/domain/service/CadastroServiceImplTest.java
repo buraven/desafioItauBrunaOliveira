@@ -1,6 +1,7 @@
 package com.desafioitau.api.transferencia.domain.service;
 
 import com.desafioitau.api.transferencia.domain.mock.ClienteResponseDTOMock;
+import com.desafioitau.api.transferencia.domain.service.impl.CadastroServiceImpl;
 import com.desafioitau.api.transferencia.dto.ClienteResponseDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

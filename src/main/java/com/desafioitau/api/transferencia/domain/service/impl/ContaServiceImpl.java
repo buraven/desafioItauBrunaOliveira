@@ -1,4 +1,4 @@
-package com.desafioitau.api.transferencia.domain.service;
+package com.desafioitau.api.transferencia.domain.service.impl;
 
 import com.desafioitau.api.transferencia.domain.service.ContaService;
 import com.desafioitau.api.transferencia.dto.ContaResponseDTO;

@@ -2,6 +2,7 @@ package com.desafioitau.api.transferencia.domain.service;
 
 import com.desafioitau.api.transferencia.domain.mock.ContaResponseDTOMock;
 import com.desafioitau.api.transferencia.domain.mock.SaldoRequestDTOMock;
+import com.desafioitau.api.transferencia.domain.service.impl.ContaServiceImpl;
 import com.desafioitau.api.transferencia.dto.ContaResponseDTO;
 import com.desafioitau.api.transferencia.dto.SaldoRequestDTO;
 import org.junit.jupiter.api.BeforeEach;

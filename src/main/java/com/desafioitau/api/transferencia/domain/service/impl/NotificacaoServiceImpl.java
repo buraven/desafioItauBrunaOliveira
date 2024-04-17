@@ -1,4 +1,4 @@
-package com.desafioitau.api.transferencia.domain.service;
+package com.desafioitau.api.transferencia.domain.service.impl;
 
 import com.desafioitau.api.transferencia.domain.service.NotificacaoService;
 import com.desafioitau.api.transferencia.dto.NotificacaoRequestDTO;
