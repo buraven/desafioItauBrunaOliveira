@@ -1,15 +1,11 @@
 package com.desafioitau.api.transferencia.domain.service;
 
-import com.desafioitau.api.transferencia.config.RestTemplateConfig;
 import com.desafioitau.api.transferencia.domain.mock.ClienteResponseDTOMock;
 import com.desafioitau.api.transferencia.dto.ClienteResponseDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.web.client.RestTemplate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,9 +14,6 @@ public class CadastroServiceTest {
 
     @InjectMocks
     private CadastroService service;
-
-    @Autowired
-    private RestTemplate restTemplate = new RestTemplate();
 
     private ClienteResponseDTO cliente;
 
