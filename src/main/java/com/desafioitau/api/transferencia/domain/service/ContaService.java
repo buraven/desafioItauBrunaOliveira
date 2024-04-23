@@ -14,11 +14,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class ContaService implements com.desafioitau.api.transferencia.domain.repository.ContaRepository {
 
     private final Logger logger = LoggerFactory.getLogger(CircuitBreakerLogConfig.class);
-    private final RestTemplate restTemplate;
-
-    public ContaService(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
 
     @Override
     @CircuitBreaker(name = "buscarContaPorIdCB", fallbackMethod = "buscarContaPorIdNoCache")
@@ -41,7 +36,7 @@ public class ContaService implements com.desafioitau.api.transferencia.domain.re
         logger.info("Buscando conta por id");
         final ContaResponseDTO contaResponseDTO;
         try {
-            contaResponseDTO = restTemplate
+            contaResponseDTO = new RestTemplate()
                     .getForEntity(API_URL, ContaResponseDTO.class)
                     .getBody();
         } catch (Exception e) {
@@ -60,7 +55,7 @@ public class ContaService implements com.desafioitau.api.transferencia.domain.re
 
         logger.info("Atualizar saldo apos tranferencia");
         try {
-            restTemplate
+            new RestTemplate()
                     .put(API_URL, saldoRequestDTO);
         } catch (Exception e) {
             logger.error("Erro ao atualizar saldo apos tranferencia");

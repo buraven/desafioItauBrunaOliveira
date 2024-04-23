@@ -14,11 +14,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class NotificacaoService implements NotificacaoRepository {
 
     private final Logger logger = LoggerFactory.getLogger(CircuitBreakerLogConfig.class);
-    private final RestTemplate restTemplate;
-
-    public NotificacaoService(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
 
     @Override
     @CircuitBreaker(name = "notificarBACENCB")
@@ -34,7 +29,7 @@ public class NotificacaoService implements NotificacaoRepository {
 
         logger.info("Notificando BACEN da tranferencia");
         try {
-            restTemplate
+            new RestTemplate()
                     .postForObject(API_URL, notificacaoRequestDTO, String.class);
         } catch (Exception e) {
             logger.error("Erro ao notificar BACEN");

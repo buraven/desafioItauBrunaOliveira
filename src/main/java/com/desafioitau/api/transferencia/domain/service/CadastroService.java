@@ -16,13 +16,7 @@ import java.util.Map;
 public class CadastroService implements com.desafioitau.api.transferencia.domain.repository.CadastroRepository {
 
     private final Logger logger = LoggerFactory.getLogger(CircuitBreakerLogConfig.class);
-    private final RestTemplate restTemplate;
-
     private final Map<String, ClienteResponseDTO> CACHE = new HashMap<>();
-
-    public CadastroService(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
 
     @Override
     @CircuitBreaker(name = "buscarClientePorIdCB", fallbackMethod = "buscarClientePorIdNoCache")
@@ -39,7 +33,7 @@ public class CadastroService implements com.desafioitau.api.transferencia.domain
         logger.info("Buscando cliente por id");
         final ClienteResponseDTO clienteResponseDTO;
         try {
-            clienteResponseDTO = restTemplate
+            clienteResponseDTO = new RestTemplate()
                     .getForEntity(API_URL, ClienteResponseDTO.class)
                     .getBody();
         } catch (Exception e) {

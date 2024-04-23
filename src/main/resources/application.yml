@@ -1,14 +1,31 @@
 resilience4j.circuitbreaker:
+  configs:
+    default:
+      minimumNumberOfCalls: 4
+      slidingWindowSize: 8
   instances:
     buscarClientePorIdCB:
-      minimumNumberOfCalls: 4
-      slidingWindowSize: 8
+      baseConfig: default
     buscarContaPorIdCB:
-      minimumNumberOfCalls: 4
-      slidingWindowSize: 8
+      baseConfig: default
     atualizarSaldoCB:
-      minimumNumberOfCalls: 4
-      slidingWindowSize: 8
+      baseConfig: default
     notificarBACENCB:
-      minimumNumberOfCalls: 4
-      slidingWindowSize: 8
+      baseConfig: default
+resilience4j.retry:
+  configs:
+    default:
+      maxAttempts: 3
+      waitDuration: 2s
+      retryExceptions:
+        - org.springframework.web.client.HttpServerErrorException
+        - java.io.IOException
+  instances:
+    buscarClientePorIdCB:
+      baseConfig: default
+    buscarContaPorIdCB:
+      baseConfig: default
+    atualizarSaldoCB:
+      baseConfig: default
+    notificarBACENCB:
+      baseConfig: default
