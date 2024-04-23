@@ -4,9 +4,9 @@ import com.desafioitau.api.transferencia.domain.mock.ClienteResponseDTOMock;
 import com.desafioitau.api.transferencia.domain.mock.ContaResponseDTOMock;
 import com.desafioitau.api.transferencia.domain.mock.TransferenciaRequestDTOMock;
 import com.desafioitau.api.transferencia.domain.mock.TransferenciaResponseDTOMock;
-import com.desafioitau.api.transferencia.domain.service.CadastroService;
-import com.desafioitau.api.transferencia.domain.service.ContaService;
-import com.desafioitau.api.transferencia.domain.service.NotificacaoService;
+import com.desafioitau.api.transferencia.domain.repository.CadastroRepository;
+import com.desafioitau.api.transferencia.domain.repository.ContaRepository;
+import com.desafioitau.api.transferencia.domain.repository.NotificacaoRepository;
 import com.desafioitau.api.transferencia.dto.ClienteResponseDTO;
 import com.desafioitau.api.transferencia.dto.ContaResponseDTO;
 import com.desafioitau.api.transferencia.dto.TransferenciaResponseDTO;
@@ -31,13 +31,13 @@ public class TransferenciaHelperTest {
     private TransferenciaHelper helper;
 
     @Mock
-    private CadastroService cadastroService;
+    private CadastroRepository cadastroRepository;
 
     @Mock
-    private ContaService contaService;
+    private ContaRepository contaRepository;
 
     @Mock
-    private NotificacaoService notificacaoService;
+    private NotificacaoRepository notificacaoRepository;
 
     private ClienteResponseDTO clienteDestino;
     private ContaResponseDTO contaOrigem;
@@ -53,8 +53,8 @@ public class TransferenciaHelperTest {
 
     @Test
     public void deveTransferir() {
-        when(cadastroService.buscarClientePorId(any())).thenReturn(clienteDestino);
-        when(contaService.buscarContaPorId(any())).thenReturn(contaOrigem);
+        when(cadastroRepository.buscarClientePorId(any())).thenReturn(clienteDestino);
+        when(contaRepository.buscarContaPorId(any())).thenReturn(contaOrigem);
 
         TransferenciaResponseDTO response = helper.transferir(TransferenciaRequestDTOMock.getTransferenciaRequestDTO_Ok());
 

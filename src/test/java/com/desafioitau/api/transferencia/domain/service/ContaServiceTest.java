@@ -2,7 +2,6 @@ package com.desafioitau.api.transferencia.domain.service;
 
 import com.desafioitau.api.transferencia.domain.mock.ContaResponseDTOMock;
 import com.desafioitau.api.transferencia.domain.mock.SaldoRequestDTOMock;
-import com.desafioitau.api.transferencia.domain.service.impl.ContaServiceImpl;
 import com.desafioitau.api.transferencia.dto.ContaResponseDTO;
 import com.desafioitau.api.transferencia.dto.SaldoRequestDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,10 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class ContaServiceImplTest {
+public class ContaServiceTest {
 
     @InjectMocks
-    private ContaServiceImpl service;
+    private ContaService service;
 
     private ContaResponseDTO conta;
     private SaldoRequestDTO saldoRequest;

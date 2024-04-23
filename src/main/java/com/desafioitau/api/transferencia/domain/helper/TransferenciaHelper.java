@@ -3,9 +3,9 @@ package com.desafioitau.api.transferencia.domain.helper;
 import com.desafioitau.api.transferencia.domain.mapper.NotificacaoRequestMapper;
 import com.desafioitau.api.transferencia.domain.mapper.SaldoRequestMapper;
 import com.desafioitau.api.transferencia.dto.*;
-import com.desafioitau.api.transferencia.domain.service.CadastroService;
-import com.desafioitau.api.transferencia.domain.service.ContaService;
-import com.desafioitau.api.transferencia.domain.service.NotificacaoService;
+import com.desafioitau.api.transferencia.domain.repository.CadastroRepository;
+import com.desafioitau.api.transferencia.domain.repository.ContaRepository;
+import com.desafioitau.api.transferencia.domain.repository.NotificacaoRepository;
 import com.desafioitau.api.transferencia.infra.utils.TransferenciaExceptionUtils;
 import com.desafioitau.api.transferencia.infra.utils.constants.ErrorMessageConstants;
 import lombok.AllArgsConstructor;
@@ -17,9 +17,9 @@ import java.util.UUID;
 @Component
 public class TransferenciaHelper {
 
-    private final CadastroService cadastroService;
-    private final ContaService contaService;
-    private final NotificacaoService notificacaoService;
+    private final CadastroRepository cadastroRepository;
+    private final ContaRepository contaRepository;
+    private final NotificacaoRepository notificacaoRepository;
 
     public TransferenciaResponseDTO transferir(TransferenciaRequestDTO transferenciaRequestDTO) {
         TransferenciaResponseDTO transferenciaResponseDTO = new TransferenciaResponseDTO();
@@ -29,8 +29,8 @@ public class TransferenciaHelper {
 
         if(clienteCadastrado(idDestino) && contaValidaParaTranferencia(idOrigem,
                                                 transferenciaRequestDTO.getValor())) {
-            contaService.atualizarSaldo(SaldoRequestMapper.dataMapper(transferenciaRequestDTO));
-            notificacaoService.notificarBACEN(NotificacaoRequestMapper.dataMapper(transferenciaRequestDTO));
+            contaRepository.atualizarSaldo(SaldoRequestMapper.dataMapper(transferenciaRequestDTO));
+            notificacaoRepository.notificarBACEN(NotificacaoRequestMapper.dataMapper(transferenciaRequestDTO));
             transferenciaResponseDTO.setIdTransferencia(UUID.randomUUID());
         }
 
@@ -38,11 +38,11 @@ public class TransferenciaHelper {
     }
 
     private boolean clienteCadastrado(String id) {
-        return cadastroService.buscarClientePorId(id) != null;
+        return cadastroRepository.buscarClientePorId(id) != null;
     }
 
     private boolean contaValidaParaTranferencia(String id, double valor) {
-        ContaResponseDTO contaResponseDTO = contaService.buscarContaPorId(id);
+        ContaResponseDTO contaResponseDTO = contaRepository.buscarContaPorId(id);
 
         if (contaResponseDTO == null) {
             TransferenciaExceptionUtils.exception(ErrorMessageConstants.ERRO_CONTA_NAO_CADASTRADA);
