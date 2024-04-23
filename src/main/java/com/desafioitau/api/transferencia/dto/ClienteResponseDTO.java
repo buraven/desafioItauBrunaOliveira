@@ -2,10 +2,11 @@ package com.desafioitau.api.transferencia.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class ClienteResponseDTO {
 
     private String id;
