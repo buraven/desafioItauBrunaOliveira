@@ -3,3 +3,12 @@ resilience4j.circuitbreaker:
     buscarClientePorIdCB:
       minimumNumberOfCalls: 4
       slidingWindowSize: 8
+    buscarContaPorIdCB:
+      minimumNumberOfCalls: 4
+      slidingWindowSize: 8
+    atualizarSaldoCB:
+      minimumNumberOfCalls: 4
+      slidingWindowSize: 8
+    notificarBACENCB:
+      minimumNumberOfCalls: 4
+      slidingWindowSize: 8
