@@ -2,12 +2,10 @@ package com.desafioitau.api.transferencia.domain.mapper;
 
 import com.desafioitau.api.transferencia.dto.SaldoRequestDTO;
 import com.desafioitau.api.transferencia.dto.TransferenciaRequestDTO;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class SaldoRequestMapper {
-
-    private SaldoRequestMapper() {
-
-    }
 
     public static SaldoRequestDTO dataMapper(TransferenciaRequestDTO transferenciaRequestDTO) {
         SaldoRequestDTO saldoRequestDTO = new SaldoRequestDTO();

@@ -2,12 +2,10 @@ package com.desafioitau.api.transferencia.domain.mapper;
 
 import com.desafioitau.api.transferencia.dto.NotificacaoRequestDTO;
 import com.desafioitau.api.transferencia.dto.TransferenciaRequestDTO;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class NotificacaoRequestMapper {
-
-    private NotificacaoRequestMapper() {
-
-    }
 
     public static NotificacaoRequestDTO dataMapper(TransferenciaRequestDTO transferenciaRequestDTO) {
         NotificacaoRequestDTO notificacaoRequestDTO = new NotificacaoRequestDTO();
