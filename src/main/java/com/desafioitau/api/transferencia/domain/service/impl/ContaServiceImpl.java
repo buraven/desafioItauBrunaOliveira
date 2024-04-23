@@ -2,20 +2,14 @@ package com.desafioitau.api.transferencia.domain.service.impl;
 
 import com.desafioitau.api.transferencia.CircuitBreakerLogConfig;
 import com.desafioitau.api.transferencia.domain.service.ContaService;
-import com.desafioitau.api.transferencia.dto.ClienteResponseDTO;
 import com.desafioitau.api.transferencia.dto.ContaResponseDTO;
-import com.desafioitau.api.transferencia.dto.NotificacaoRequestDTO;
 import com.desafioitau.api.transferencia.dto.SaldoRequestDTO;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class ContaServiceImpl implements ContaService {
