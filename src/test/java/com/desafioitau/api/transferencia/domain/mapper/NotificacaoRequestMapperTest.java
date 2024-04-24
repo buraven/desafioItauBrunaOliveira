@@ -1,6 +1,6 @@
 package com.desafioitau.api.transferencia.domain.mapper;
 
-import com.desafioitau.api.transferencia.domain.mock.TransferenciaRequestDTOMock;
+import com.desafioitau.api.transferencia.domain.mock.TransferenciaRequestMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -18,7 +18,7 @@ public class NotificacaoRequestMapperTest {
 
     @Test
     public void dataMapper() {
-        assertNotNull(NotificacaoRequestMapper.dataMapper(TransferenciaRequestDTOMock.getTransferenciaRequestDTO_Ok()));
+        assertNotNull(NotificacaoRequestMapper.dataMapper(TransferenciaRequestMock.getTransferenciaRequest_Ok()));
     }
 
 }

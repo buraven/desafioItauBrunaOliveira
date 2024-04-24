@@ -1,20 +1,20 @@
 package com.desafioitau.api.transferencia.domain.mapper;
 
-import com.desafioitau.api.transferencia.dto.SaldoRequestDTO;
-import com.desafioitau.api.transferencia.dto.TransferenciaRequestDTO;
+import com.desafioitau.api.transferencia.domain.model.SaldoRequest;
+import com.desafioitau.api.transferencia.domain.model.TransferenciaRequest;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public class SaldoRequestMapper {
 
-    public static SaldoRequestDTO dataMapper(TransferenciaRequestDTO transferenciaRequestDTO) {
-        SaldoRequestDTO saldoRequestDTO = new SaldoRequestDTO();
-        saldoRequestDTO.setValor(transferenciaRequestDTO.getValor());
-        saldoRequestDTO.setConta(new SaldoRequestDTO.Conta());
-        saldoRequestDTO.getConta().setIdOrigem(transferenciaRequestDTO.getConta().getIdOrigem());
-        saldoRequestDTO.getConta().setIdDestino(transferenciaRequestDTO.getConta().getIdDestino());
+    public static SaldoRequest dataMapper(TransferenciaRequest transferenciaRequest) {
+        SaldoRequest saldoRequest = new SaldoRequest();
+        saldoRequest.setValor(transferenciaRequest.getValor());
+        saldoRequest.setConta(new SaldoRequest.Conta());
+        saldoRequest.getConta().setIdOrigem(transferenciaRequest.getConta().getIdOrigem());
+        saldoRequest.getConta().setIdDestino(transferenciaRequest.getConta().getIdDestino());
 
-        return saldoRequestDTO;
+        return saldoRequest;
     }
 
 }

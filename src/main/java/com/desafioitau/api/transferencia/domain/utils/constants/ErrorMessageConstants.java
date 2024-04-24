@@ -1,8 +1,9 @@
-package com.desafioitau.api.transferencia.infra.utils.constants;
+package com.desafioitau.api.transferencia.domain.utils.constants;
 
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public class ErrorMessageConstants {
-
-    private ErrorMessageConstants() {}
 
     public static final String ERRO_CONTA_NAO_CADASTRADA = "Conta não cadastrada";
     public static final String ERRO_CONTA_NAO_ATIVA = "Conta não está ativa";

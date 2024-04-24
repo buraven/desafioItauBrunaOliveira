@@ -1,4 +1,4 @@
-package com.desafioitau.api.transferencia;
+package com.desafioitau.api.transferencia.config;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.core.registry.*;

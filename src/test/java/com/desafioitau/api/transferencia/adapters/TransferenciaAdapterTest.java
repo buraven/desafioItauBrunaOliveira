@@ -1,7 +1,7 @@
-package com.desafioitau.api.transferencia.controller;
+package com.desafioitau.api.transferencia.adapters;
 
-import com.desafioitau.api.transferencia.domain.helper.TransferenciaHelper;
-import com.desafioitau.api.transferencia.domain.mock.TransferenciaRequestDTOMock;
+import com.desafioitau.api.transferencia.domain.core.TransferenciaCore;
+import com.desafioitau.api.transferencia.domain.mock.TransferenciaRequestMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,20 +19,20 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class TransferenciaControllerTest {
+public class TransferenciaAdapterTest {
 
     private MockMvc mockMvc;
 
     @InjectMocks
-    private TransferenciaController controller;
+    private TransferenciaAdapter adapter;
 
     @Mock
-    private TransferenciaHelper helper;
+    private TransferenciaCore core;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(adapter).build();
     }
 
     @Test
@@ -43,6 +43,6 @@ public class TransferenciaControllerTest {
         ResultActions resultActions = mockMvc.perform(requestBuilder);
         resultActions.andExpect(MockMvcResultMatchers.status().is4xxClientError());
 
-        assertNotNull(controller.efetuarTransferencia(TransferenciaRequestDTOMock.getTransferenciaRequestDTO_Ok()));
+        assertNotNull(adapter.efetuarTransferencia(TransferenciaRequestMock.getTransferenciaRequest_Ok()));
     }
 }

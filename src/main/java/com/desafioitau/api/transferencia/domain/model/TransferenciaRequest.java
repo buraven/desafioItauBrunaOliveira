@@ -1,4 +1,4 @@
-package com.desafioitau.api.transferencia.dto;
+package com.desafioitau.api.transferencia.domain.model;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TransferenciaRequestDTO {
+public class TransferenciaRequest {
 
     @NotNull
     private String idCliente;

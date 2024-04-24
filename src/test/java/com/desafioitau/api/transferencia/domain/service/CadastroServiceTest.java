@@ -1,7 +1,7 @@
 package com.desafioitau.api.transferencia.domain.service;
 
-import com.desafioitau.api.transferencia.domain.mock.ClienteResponseDTOMock;
-import com.desafioitau.api.transferencia.dto.ClienteResponseDTO;
+import com.desafioitau.api.transferencia.domain.mock.ClienteResponseMock;
+import com.desafioitau.api.transferencia.domain.model.ClienteResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -15,16 +15,16 @@ public class CadastroServiceTest {
     @InjectMocks
     private CadastroService service;
 
-    private ClienteResponseDTO cliente;
+    private ClienteResponse cliente;
 
     @BeforeEach
     public void setUp() {
-        cliente = ClienteResponseDTOMock.getClienteResponseDTO_Ok();
+        cliente = ClienteResponseMock.getClienteResponse_Ok();
     }
 
     @Test
     public void deveBuscarClientePorId() {
-        ClienteResponseDTO response = service.buscarClientePorId("2ceb26e9-7b5c-417e-bf75-ffaa66e3a76f");
+        ClienteResponse response = service.buscarClientePorId("2ceb26e9-7b5c-417e-bf75-ffaa66e3a76f");
 
         assertNotNull(response);
         assertEquals(cliente.getClass(), response.getClass());

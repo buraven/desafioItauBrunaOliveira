@@ -1,8 +1,7 @@
 package com.desafioitau.api.transferencia.domain.service;
 
-import com.desafioitau.api.transferencia.CircuitBreakerLogConfig;
-import com.desafioitau.api.transferencia.dto.ContaResponseDTO;
-import com.desafioitau.api.transferencia.dto.SaldoRequestDTO;
+import com.desafioitau.api.transferencia.domain.model.ContaResponse;
+import com.desafioitau.api.transferencia.domain.model.SaldoRequest;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,37 +16,37 @@ public class ContaService implements com.desafioitau.api.transferencia.domain.re
 
     @Override
     @CircuitBreaker(name = "buscarContaPorIdCB", fallbackMethod = "buscarContaPorIdNoCache")
-    public ContaResponseDTO buscarContaPorId(String id) {
+    public ContaResponse buscarContaPorId(String id) {
         return executarRequisicao(id);
     }
 
     @Override
     @CircuitBreaker(name = "atualizarSaldoCB")
-    public void atualizarSaldo(SaldoRequestDTO saldoRequestDTO) {
-        executarRequisicao(saldoRequestDTO);
+    public void atualizarSaldo(SaldoRequest saldoRequest) {
+        executarRequisicao(saldoRequest);
     }
 
-    private ContaResponseDTO executarRequisicao(String id) {
+    private ContaResponse executarRequisicao(String id) {
         final String API_URL = UriComponentsBuilder
                 .fromHttpUrl("http://localhost:9090/contas/" + id)
                 .encode()
                 .toUriString();
 
         logger.info("Buscando conta por id");
-        final ContaResponseDTO contaResponseDTO;
+        final ContaResponse contaResponse;
         try {
-            contaResponseDTO = new RestTemplate()
-                    .getForEntity(API_URL, ContaResponseDTO.class)
+            contaResponse = new RestTemplate()
+                    .getForEntity(API_URL, ContaResponse.class)
                     .getBody();
         } catch (Exception e) {
             logger.error("Erro ao buscar conta por id");
             throw e;
         }
 
-        return contaResponseDTO;
+        return contaResponse;
     }
 
-    private void executarRequisicao(SaldoRequestDTO saldoRequestDTO) {
+    private void executarRequisicao(SaldoRequest saldoRequest) {
         final String API_URL = UriComponentsBuilder
                 .fromHttpUrl("http://localhost:9090/contas/saldos")
                 .encode()
@@ -56,7 +55,7 @@ public class ContaService implements com.desafioitau.api.transferencia.domain.re
         logger.info("Atualizar saldo apos tranferencia");
         try {
             new RestTemplate()
-                    .put(API_URL, saldoRequestDTO);
+                    .put(API_URL, saldoRequest);
         } catch (Exception e) {
             logger.error("Erro ao atualizar saldo apos tranferencia");
             throw e;

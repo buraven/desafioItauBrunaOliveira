@@ -1,4 +1,4 @@
-package com.desafioitau.api.transferencia.dto;
+package com.desafioitau.api.transferencia.domain.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,7 +7,8 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class TransferenciaResponseDTO {
+public class TransferenciaResponse {
 
     private UUID idTransferencia;
+
 }

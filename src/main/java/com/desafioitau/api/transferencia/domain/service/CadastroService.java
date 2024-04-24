@@ -1,7 +1,6 @@
 package com.desafioitau.api.transferencia.domain.service;
 
-import com.desafioitau.api.transferencia.CircuitBreakerLogConfig;
-import com.desafioitau.api.transferencia.dto.ClienteResponseDTO;
+import com.desafioitau.api.transferencia.domain.model.ClienteResponse;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,25 +15,25 @@ import java.util.Map;
 public class CadastroService implements com.desafioitau.api.transferencia.domain.repository.CadastroRepository {
 
     private final Logger logger = LoggerFactory.getLogger(CadastroService.class);
-    private final Map<String, ClienteResponseDTO> CACHE = new HashMap<>();
+    private final Map<String, ClienteResponse> CACHE = new HashMap<>();
 
     @Override
     @CircuitBreaker(name = "buscarClientePorIdCB", fallbackMethod = "buscarClientePorIdNoCache")
-    public ClienteResponseDTO buscarClientePorId(String id) {
+    public ClienteResponse buscarClientePorId(String id) {
         return executarRequisicao(id);
     }
 
-    private ClienteResponseDTO executarRequisicao(String id) {
+    private ClienteResponse executarRequisicao(String id) {
         final String API_URL = UriComponentsBuilder
                 .fromHttpUrl("http://localhost:9090/clientes/" + id)
                 .encode()
                 .toUriString();
 
         logger.info("Buscando cliente por id");
-        final ClienteResponseDTO clienteResponseDTO;
+        final ClienteResponse clienteResponse;
         try {
-            clienteResponseDTO = new RestTemplate()
-                    .getForEntity(API_URL, ClienteResponseDTO.class)
+            clienteResponse = new RestTemplate()
+                    .getForEntity(API_URL, ClienteResponse.class)
                     .getBody();
         } catch (Exception e) {
             logger.error("Erro ao buscar cliente por id");
@@ -42,13 +41,13 @@ public class CadastroService implements com.desafioitau.api.transferencia.domain
         }
 
         logger.info("Populando cache");
-        CACHE.put(id, clienteResponseDTO);
+        CACHE.put(id, clienteResponse);
 
-        return clienteResponseDTO;
+        return clienteResponse;
     }
 
-    private ClienteResponseDTO buscarClientePorIdNoCache(String id) {
-        return CACHE.getOrDefault(id, new ClienteResponseDTO());
+    private ClienteResponse buscarClientePorIdNoCache(String id) {
+        return CACHE.getOrDefault(id, new ClienteResponse());
     }
 
 }

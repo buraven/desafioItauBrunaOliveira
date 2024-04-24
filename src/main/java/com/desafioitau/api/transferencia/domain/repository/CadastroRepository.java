@@ -1,9 +1,9 @@
 package com.desafioitau.api.transferencia.domain.repository;
 
-import com.desafioitau.api.transferencia.dto.ClienteResponseDTO;
+import com.desafioitau.api.transferencia.domain.model.ClienteResponse;
 
 public interface CadastroRepository {
 
-    ClienteResponseDTO buscarClientePorId(String id);
+    ClienteResponse buscarClientePorId(String id);
 
 }

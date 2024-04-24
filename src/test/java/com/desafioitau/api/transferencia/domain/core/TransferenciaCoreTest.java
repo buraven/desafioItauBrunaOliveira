@@ -1,16 +1,16 @@
-package com.desafioitau.api.transferencia.domain.helper;
+package com.desafioitau.api.transferencia.domain.core;
 
-import com.desafioitau.api.transferencia.domain.mock.ClienteResponseDTOMock;
-import com.desafioitau.api.transferencia.domain.mock.ContaResponseDTOMock;
-import com.desafioitau.api.transferencia.domain.mock.TransferenciaRequestDTOMock;
-import com.desafioitau.api.transferencia.domain.mock.TransferenciaResponseDTOMock;
+import com.desafioitau.api.transferencia.domain.mock.ClienteResponseMock;
+import com.desafioitau.api.transferencia.domain.mock.ContaResponseMock;
+import com.desafioitau.api.transferencia.domain.mock.TransferenciaRequestMock;
+import com.desafioitau.api.transferencia.domain.mock.TransferenciaResponseMock;
 import com.desafioitau.api.transferencia.domain.repository.CadastroRepository;
 import com.desafioitau.api.transferencia.domain.repository.ContaRepository;
 import com.desafioitau.api.transferencia.domain.repository.NotificacaoRepository;
-import com.desafioitau.api.transferencia.dto.ClienteResponseDTO;
-import com.desafioitau.api.transferencia.dto.ContaResponseDTO;
-import com.desafioitau.api.transferencia.dto.TransferenciaResponseDTO;
-import com.desafioitau.api.transferencia.infra.exception.TransferenciaException;
+import com.desafioitau.api.transferencia.domain.model.ClienteResponse;
+import com.desafioitau.api.transferencia.domain.model.ContaResponse;
+import com.desafioitau.api.transferencia.domain.model.TransferenciaResponse;
+import com.desafioitau.api.transferencia.domain.exception.TransferenciaException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -25,10 +25,10 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-public class TransferenciaHelperTest {
+public class TransferenciaCoreTest {
 
     @Autowired
-    private TransferenciaHelper helper;
+    private TransferenciaCore helper;
 
     @Mock
     private CadastroRepository cadastroRepository;
@@ -39,16 +39,16 @@ public class TransferenciaHelperTest {
     @Mock
     private NotificacaoRepository notificacaoRepository;
 
-    private ClienteResponseDTO clienteDestino;
-    private ContaResponseDTO contaOrigem;
-    private TransferenciaResponseDTO transferenciaResponseDTO;
+    private ClienteResponse clienteDestino;
+    private ContaResponse contaOrigem;
+    private TransferenciaResponse transferenciaResponse;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        clienteDestino = ClienteResponseDTOMock.getClienteResponseDTO_Ok();
-        contaOrigem = ContaResponseDTOMock.getContaResponseDTO_Ok();
-        transferenciaResponseDTO = TransferenciaResponseDTOMock.getTransferenciaResponseDTO_Ok();
+        clienteDestino = ClienteResponseMock.getClienteResponse_Ok();
+        contaOrigem = ContaResponseMock.getContaResponse_Ok();
+        transferenciaResponse = TransferenciaResponseMock.getTransferenciaResponse_Ok();
     }
 
     @Test
@@ -56,38 +56,38 @@ public class TransferenciaHelperTest {
         when(cadastroRepository.buscarClientePorId(any())).thenReturn(clienteDestino);
         when(contaRepository.buscarContaPorId(any())).thenReturn(contaOrigem);
 
-        TransferenciaResponseDTO response = helper.transferir(TransferenciaRequestDTOMock.getTransferenciaRequestDTO_Ok());
+        TransferenciaResponse response = helper.transferir(TransferenciaRequestMock.getTransferenciaRequest_Ok());
 
         assertNotNull(response);
-        assertEquals(transferenciaResponseDTO.getClass(), response.getClass());
+        assertEquals(transferenciaResponse.getClass(), response.getClass());
     }
 
     @Test
     public void naoDeveTransferir_ClienteDestinoNaoCadastrado() {
         assertThrows(HttpClientErrorException.class,
-                () -> helper.transferir(TransferenciaRequestDTOMock
-                        .getTransferenciaRequestDTO_ClienteDestinoNaoCadastrado()));
+                () -> helper.transferir(TransferenciaRequestMock
+                        .getTransferenciaRequest_ClienteDestinoNaoCadastrado()));
     }
 
     @Test
     public void naoDeveTransferir_ContaOrigemNaoCadastrada() {
         assertThrows(HttpClientErrorException.class,
-                () -> helper.transferir(TransferenciaRequestDTOMock
-                        .getTransferenciaRequestDTO_ContaOrigemNaoCadastrada()));
+                () -> helper.transferir(TransferenciaRequestMock
+                        .getTransferenciaRequest_ContaOrigemNaoCadastrada()));
     }
 
     @Test
     public void naoDeveTransferir_SaldoInsuficiente() {
         assertThrows(TransferenciaException.class,
-                () -> helper.transferir(TransferenciaRequestDTOMock
-                        .getTransferenciaRequestDTO_SaldoInsuficiente()));
+                () -> helper.transferir(TransferenciaRequestMock
+                        .getTransferenciaRequest_SaldoInsuficiente()));
     }
 
     @Test
     public void naoDeveTransferir_LimiteDiarioInsuficiente() {
         assertThrows(TransferenciaException.class,
-                () -> helper.transferir(TransferenciaRequestDTOMock
-                        .getTransferenciaRequestDTO_LimiteDiarioInsuficiente()));
+                () -> helper.transferir(TransferenciaRequestMock
+                        .getTransferenciaRequest_LimiteDiarioInsuficiente()));
     }
 
     //TODO - fazer testes restantes para incluir outros cenários do if quando a api retornar todos os cenarios

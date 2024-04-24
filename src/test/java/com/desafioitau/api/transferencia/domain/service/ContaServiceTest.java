@@ -1,9 +1,9 @@
 package com.desafioitau.api.transferencia.domain.service;
 
-import com.desafioitau.api.transferencia.domain.mock.ContaResponseDTOMock;
-import com.desafioitau.api.transferencia.domain.mock.SaldoRequestDTOMock;
-import com.desafioitau.api.transferencia.dto.ContaResponseDTO;
-import com.desafioitau.api.transferencia.dto.SaldoRequestDTO;
+import com.desafioitau.api.transferencia.domain.mock.ContaResponseMock;
+import com.desafioitau.api.transferencia.domain.mock.SaldoRequestMock;
+import com.desafioitau.api.transferencia.domain.model.ContaResponse;
+import com.desafioitau.api.transferencia.domain.model.SaldoRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,18 +17,18 @@ public class ContaServiceTest {
     @InjectMocks
     private ContaService service;
 
-    private ContaResponseDTO conta;
-    private SaldoRequestDTO saldoRequest;
+    private ContaResponse conta;
+    private SaldoRequest saldoRequest;
 
     @BeforeEach
     public void setUp() {
-       conta = ContaResponseDTOMock.getContaResponseDTO_Ok();
-       saldoRequest = SaldoRequestDTOMock.getSaldoRequestDTO_Ok();
+       conta = ContaResponseMock.getContaResponse_Ok();
+       saldoRequest = SaldoRequestMock.getSaldoRequest_Ok();
     }
 
     @Test
     public void deveBuscarContaPorId() {
-        ContaResponseDTO response = service.buscarContaPorId("d0d32142-74b7-4aca-9c68-838aeacef96b");
+        ContaResponse response = service.buscarContaPorId("d0d32142-74b7-4aca-9c68-838aeacef96b");
 
         assertNotNull(response);
         assertEquals(conta.getClass(), response.getClass());

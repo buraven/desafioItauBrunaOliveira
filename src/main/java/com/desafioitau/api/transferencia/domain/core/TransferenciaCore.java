@@ -1,13 +1,15 @@
-package com.desafioitau.api.transferencia.domain.helper;
+package com.desafioitau.api.transferencia.domain.core;
 
 import com.desafioitau.api.transferencia.domain.mapper.NotificacaoRequestMapper;
 import com.desafioitau.api.transferencia.domain.mapper.SaldoRequestMapper;
-import com.desafioitau.api.transferencia.dto.*;
+import com.desafioitau.api.transferencia.domain.model.ContaResponse;
+import com.desafioitau.api.transferencia.domain.model.TransferenciaRequest;
+import com.desafioitau.api.transferencia.domain.model.TransferenciaResponse;
 import com.desafioitau.api.transferencia.domain.repository.CadastroRepository;
 import com.desafioitau.api.transferencia.domain.repository.ContaRepository;
 import com.desafioitau.api.transferencia.domain.repository.NotificacaoRepository;
-import com.desafioitau.api.transferencia.infra.utils.TransferenciaExceptionUtils;
-import com.desafioitau.api.transferencia.infra.utils.constants.ErrorMessageConstants;
+import com.desafioitau.api.transferencia.domain.utils.TransferenciaExceptionUtils;
+import com.desafioitau.api.transferencia.domain.utils.constants.ErrorMessageConstants;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -15,26 +17,26 @@ import java.util.UUID;
 
 @AllArgsConstructor
 @Component
-public class TransferenciaHelper {
+public class TransferenciaCore {
 
     private final CadastroRepository cadastroRepository;
     private final ContaRepository contaRepository;
     private final NotificacaoRepository notificacaoRepository;
 
-    public TransferenciaResponseDTO transferir(TransferenciaRequestDTO transferenciaRequestDTO) {
-        TransferenciaResponseDTO transferenciaResponseDTO = new TransferenciaResponseDTO();
+    public TransferenciaResponse transferir(TransferenciaRequest transferenciaRequest) {
+        TransferenciaResponse transferenciaResponse = new TransferenciaResponse();
 
-        String idOrigem = transferenciaRequestDTO.getConta().getIdOrigem();
-        String idDestino = transferenciaRequestDTO.getConta().getIdDestino();
+        String idOrigem = transferenciaRequest.getConta().getIdOrigem();
+        String idDestino = transferenciaRequest.getConta().getIdDestino();
 
         if(clienteCadastrado(idDestino) && contaValidaParaTranferencia(idOrigem,
-                                                transferenciaRequestDTO.getValor())) {
-            contaRepository.atualizarSaldo(SaldoRequestMapper.dataMapper(transferenciaRequestDTO));
-            notificacaoRepository.notificarBACEN(NotificacaoRequestMapper.dataMapper(transferenciaRequestDTO));
-            transferenciaResponseDTO.setIdTransferencia(UUID.randomUUID());
+                                                transferenciaRequest.getValor())) {
+            contaRepository.atualizarSaldo(SaldoRequestMapper.dataMapper(transferenciaRequest));
+            notificacaoRepository.notificarBACEN(NotificacaoRequestMapper.dataMapper(transferenciaRequest));
+            transferenciaResponse.setIdTransferencia(UUID.randomUUID());
         }
 
-        return transferenciaResponseDTO;
+        return transferenciaResponse;
     }
 
     private boolean clienteCadastrado(String id) {
@@ -42,19 +44,19 @@ public class TransferenciaHelper {
     }
 
     private boolean contaValidaParaTranferencia(String id, double valor) {
-        ContaResponseDTO contaResponseDTO = contaRepository.buscarContaPorId(id);
+        ContaResponse contaResponse = contaRepository.buscarContaPorId(id);
 
-        if (contaResponseDTO == null) {
+        if (contaResponse == null) {
             TransferenciaExceptionUtils.exception(ErrorMessageConstants.ERRO_CONTA_NAO_CADASTRADA);
-        } else if (!contaResponseDTO.isAtivo()) {
+        } else if (!contaResponse.isAtivo()) {
             TransferenciaExceptionUtils.exception(ErrorMessageConstants.ERRO_CONTA_NAO_ATIVA);
-        } else if (contaResponseDTO.getSaldo() <= 0) {
+        } else if (contaResponse.getSaldo() <= 0) {
             TransferenciaExceptionUtils.exception(ErrorMessageConstants.ERRO_SALDO_MENOR_QUE_ZERO);
-        } else if (contaResponseDTO.getSaldo() < valor) {
+        } else if (contaResponse.getSaldo() < valor) {
             TransferenciaExceptionUtils.exception(ErrorMessageConstants.ERRO_SALDO_INSUFICIENTE);
-        } else if (contaResponseDTO.getLimiteDiario() <= 0) {
+        } else if (contaResponse.getLimiteDiario() <= 0) {
             TransferenciaExceptionUtils.exception(ErrorMessageConstants.ERRO_LIMITE_MENOR_QUE_ZERO);
-        } else if (contaResponseDTO.getLimiteDiario() < valor) {
+        } else if (contaResponse.getLimiteDiario() < valor) {
             TransferenciaExceptionUtils.exception(ErrorMessageConstants.ERRO_LIMITE_INSUFICIENTE);
         }
 

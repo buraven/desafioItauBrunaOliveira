@@ -1,20 +1,20 @@
 package com.desafioitau.api.transferencia.domain.mapper;
 
-import com.desafioitau.api.transferencia.dto.NotificacaoRequestDTO;
-import com.desafioitau.api.transferencia.dto.TransferenciaRequestDTO;
+import com.desafioitau.api.transferencia.domain.model.NotificacaoRequest;
+import com.desafioitau.api.transferencia.domain.model.TransferenciaRequest;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public class NotificacaoRequestMapper {
 
-    public static NotificacaoRequestDTO dataMapper(TransferenciaRequestDTO transferenciaRequestDTO) {
-        NotificacaoRequestDTO notificacaoRequestDTO = new NotificacaoRequestDTO();
-        notificacaoRequestDTO.setValor(transferenciaRequestDTO.getValor());
-        notificacaoRequestDTO.setConta(new NotificacaoRequestDTO.Conta());
-        notificacaoRequestDTO.getConta().setIdOrigem(transferenciaRequestDTO.getConta().getIdOrigem());
-        notificacaoRequestDTO.getConta().setIdDestino(transferenciaRequestDTO.getConta().getIdDestino());
+    public static NotificacaoRequest dataMapper(TransferenciaRequest transferenciaRequest) {
+        NotificacaoRequest notificacaoRequest = new NotificacaoRequest();
+        notificacaoRequest.setValor(transferenciaRequest.getValor());
+        notificacaoRequest.setConta(new NotificacaoRequest.Conta());
+        notificacaoRequest.getConta().setIdOrigem(transferenciaRequest.getConta().getIdOrigem());
+        notificacaoRequest.getConta().setIdDestino(transferenciaRequest.getConta().getIdDestino());
 
-        return notificacaoRequestDTO;
+        return notificacaoRequest;
     }
 
 }
