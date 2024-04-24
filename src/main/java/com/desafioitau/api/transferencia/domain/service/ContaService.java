@@ -13,7 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Service
 public class ContaService implements com.desafioitau.api.transferencia.domain.repository.ContaRepository {
 
-    private final Logger logger = LoggerFactory.getLogger(CircuitBreakerLogConfig.class);
+    private final Logger logger = LoggerFactory.getLogger(ContaService.class);
 
     @Override
     @CircuitBreaker(name = "buscarContaPorIdCB", fallbackMethod = "buscarContaPorIdNoCache")

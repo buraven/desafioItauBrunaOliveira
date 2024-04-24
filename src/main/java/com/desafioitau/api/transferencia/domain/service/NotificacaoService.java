@@ -13,7 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Service
 public class NotificacaoService implements NotificacaoRepository {
 
-    private final Logger logger = LoggerFactory.getLogger(CircuitBreakerLogConfig.class);
+    private final Logger logger = LoggerFactory.getLogger(NotificacaoService.class);
 
     @Override
     @CircuitBreaker(name = "notificarBACENCB")

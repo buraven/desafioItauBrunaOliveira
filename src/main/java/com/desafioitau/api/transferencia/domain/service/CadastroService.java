@@ -15,7 +15,7 @@ import java.util.Map;
 @Service
 public class CadastroService implements com.desafioitau.api.transferencia.domain.repository.CadastroRepository {
 
-    private final Logger logger = LoggerFactory.getLogger(CircuitBreakerLogConfig.class);
+    private final Logger logger = LoggerFactory.getLogger(CadastroService.class);
     private final Map<String, ClienteResponseDTO> CACHE = new HashMap<>();
 
     @Override
